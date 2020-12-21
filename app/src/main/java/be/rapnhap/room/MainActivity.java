@@ -27,8 +27,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mItemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        //mItemViewModel = new ViewModelProvider.AndroidViewModelFactory(application)
+        //    .create(ItemViewModel.class);
+        // Get a new or existing ViewModel from the ViewModelProvider.
+        //mItemViewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 
+        mItemViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(ItemViewModel.class);
         mItemViewModel.getAllItems().observe(this, items -> {
             // Update the cached copy of the words in the adapter.
             adapter.submitList(items);
@@ -47,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_ITEM_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Item word = new Item(data.getStringExtra(NewItemActivity.EXTRA_REPLY));
-            mItemViewModel.insert(word);
+            Item item = new Item(data.getStringExtra(NewItemActivity.EXTRA_REPLY));
+            mItemViewModel.insert(item);
         } else {
             Toast.makeText(
                     getApplicationContext(),

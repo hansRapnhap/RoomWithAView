@@ -13,7 +13,7 @@ public class ItemViewModel extends AndroidViewModel {
 
     private final LiveData<List<Item>> mAllItems;
 
-    public ItemViewModel (Application application) {
+    public ItemViewModel(Application application) {
         super(application);
         mRepository = new ItemRepository(application);
         mAllItems = mRepository.getAllItems();
